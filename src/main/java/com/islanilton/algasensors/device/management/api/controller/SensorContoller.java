@@ -75,6 +75,22 @@ public class SensorContoller {
         sensorRepository.delete(sensor);
     }
 
+    @PutMapping("{sensorId}/enable")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activate(@PathVariable TSID sensorId) {
+        Sensor sensor = getSensorDB(sensorId);
+        sensor.setEnabled(true);
+        sensorRepository.saveAndFlush(sensor);
+    }
+
+    @DeleteMapping("{sensorId}/enable")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inactivate(@PathVariable TSID sensorId) {
+        Sensor sensor = getSensorDB(sensorId);
+        sensor.setEnabled(false);
+        sensorRepository.saveAndFlush(sensor);
+    }
+
     private SensorOutput toModel(Sensor sensor) {
         return SensorOutput.builder()
                 .id(sensor.getId().getValue())
